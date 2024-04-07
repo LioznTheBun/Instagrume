@@ -1,0 +1,26 @@
+.container-form-connexion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.pasInscrit a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pasInscrit a:hover {
+    text-decoration: underline;
+}
+
+.btn-valider {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-valider:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}

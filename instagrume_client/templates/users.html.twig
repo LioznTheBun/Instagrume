@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block titre %}
+	{{ parent() }}
+	- Gestion des utilisateurs
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="{{ asset('js/ban.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+	<div class='container mt-3'>
+		<div class='tab-content border border-top-0 p-3' id='content'>
+			<table class='table table-hover table-striped table-borderless'>
+				<thead>
+					<tr>
+						<th scope='col'>
+							Id
+						</th>
+						<th scope='col'>
+							Identifiant
+						</th>
+						<th scope='col'>
+							Role
+						</th>
+						<th scope='col'>
+							Statut
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+						<tr id='tr-user-{{ user.id }}'>
+							<td class='align-middle' scope='row'>
+								{{ user.id }}
+							</td>
+							<td class='align-middle' scope='row'>
+								{{ user.pseudo }}
+							</td>
+							<td class='align-middle' scope='row'>
+								{% if 'ROLE_ADMIN' in user.roles %}
+									Administrateur
+								{% else %}
+									Membre
+								{% endif %}
+							</td>
+							<td>
+								{% if 'ROLE_ADMIN' not in user.roles %}
+									{% if user.is_banned %}
+										<label class="toggle">
+											<input type="checkbox" class="banToggle" data-user-id='{{user.id}}' >
+											<span class="labels" data-on="Banni" data-off="Clean"></span>
+										</label>
+									{% else %}
+										<label class="toggle">
+											<input type="checkbox" class="banToggle" data-user-id='{{user.id}}' checked>
+											<span class="labels" data-on="Banni" data-off="Clean"></span>
+										</label>
+									{% endif %}
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

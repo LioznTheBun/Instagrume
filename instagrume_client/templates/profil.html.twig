@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	- Profil
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/profil.css') }}" type="text/css">
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/profil.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<main class="container mt-4">
+		<article class="content_profil">
+			<div class="left_content_profil">
+				<label for="avatarInput">
+					<img id="avatar" class="avatar" src="http://127.0.0.1:3000/img/{{ user.avatar }}" alt="Avatar">
+				</label>
+				<form id="avatarForm" action="{{ path('upload_avatar') }}" method="post" enctype="multipart/form-data" style="display: none;">
+					<input type="file" id="avatarInput" name="avatar" accept="image/*" onchange="submitForm()">
+					<input type="hidden" id="id" name="id" value="{{ user.id }}" required>
+					<button type="submit" style="display: none;"></button>
+				</form>
+			</div>
+			<div class="right_content_profil">
+				<div>
+					<p class="pseudo_profil">{{ user.pseudo }}</p>
+				</div>
+				<div>
+					<p class="email_profil">{{ user.email }}</p>
+				</div>
+				{% if user.id == app.session.get('idUser') %}
+					<form id="profileForm" action="/changePass" method="POST">
+						<label for="password">Nouveau mot de passe:</label>
+						<input type="hidden" id="id" name="id" value="{{ user.id }}" required>
+						<input type="password" id="password" name="password" required>
+						<button type="submit">Modifier mon mot de passe</button>
+					</form>
+				{% endif %}
+			</div>
+		</article>
+		<div class="publications_profil">
+			<div class="publications_title">
+				<p>Mes publications ({{ user.publications is defined ? user.publications|length : 0 }})</p>
+			</div>
+			{% for publication in user.publications %}
+				<div class="publications_main_card_profil">
+					<div class="publications_card_profil">
+						<div class="img_post_profil">
+							<img src="http://127.0.0.1:3000/img/{{ publication.photo }}"/>
+						</div>
+						<div class="edit_delete_icon">
+							<div class="edit_icon_div">
+								<img class="edit_icon" src="{{ asset('images/editer.png') }}" onclick="editDescription('{{ publication.id }}')">
+							</div>
+							<div class="delete_icon_div">
+								<img class="delete_icon" src="{{ asset('images/corbeille.png') }}" onclick="deletePublication('{{ publication.id }}', '{{ path('delete_publication', {'id': publication.id}) }}')">
+							</div>
+						</div>
+
+						<p>{{ publication.description }}</p>
+							<p class="date_post">
+								{% set timestamp = publication.date_publication.timestamp %}
+								{% set difference = "now"|date("U") - timestamp %}
+								
+								{% if difference > 86400 %}
+									Publié il y a {{ (difference / 86400)|round }} j
+								{% elseif difference > 3600 %}
+									Publié il y a {{ (difference / 3600)|round }} h
+								{% elseif difference > 60 %}
+									Publié il y a {{ (difference / 60)|round }} minute(s)
+								{% else %}
+									il y a quelques instants
+								{% endif %}
+							</p>
+
+						<form class="editForm" id="editForm{{ publication.id }}" action="{{ path('edit_publication') }}" method="post" style="display: none;">
+							<label for="editDescription">Nouvelle description :</label>
+							<input type="hidden" name="id" value="{{ publication.id }}" required>
+							<input type="text" name="description" required>
+							<button type="submit">Modifier</button>
+						</form>
+					</div>
+				</div>
+			{% endfor %}
+
+		</div>
+	</main>
+{% endblock %}

@@ -1,0 +1,128 @@
+.toggle {
+	--width: 80px;
+	--height: calc(var(--width) / 3);
+
+	position: relative;
+	display: inline-block;
+	width: var(--width);
+	height: var(--height);
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+}
+
+.toggle input {
+	display: none;
+}
+
+.toggle .labels {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	font-size: 12px;
+	font-family: sans-serif;
+	transition: all 0.4s ease-in-out;
+}
+
+.toggle .labels::after {
+	content: attr(data-on);
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	color: #4d4d4d;
+	background-color: #f19999;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+	transition: all 0.4s ease-in-out;
+}
+
+.toggle .labels::before {
+	content: attr(data-off);
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	color: #ffffff;
+	background-color: #4fe132;
+	text-align: center;
+	opacity: 0;
+	text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+	transition: all 0.4s ease-in-out;
+}
+
+.toggle input:checked~.labels::after {
+	/* flip 180deg */
+	transform: rotateY(180deg);
+	opacity: 0;
+}
+
+.toggle input:checked~.labels::before {
+	transform: rotateY(180deg) scale(-1, 1);
+	opacity: 1;
+}
+
+body {
+	background-color: white;
+	color: black;
+}
+
+.popupPublication {
+	z-index: 999;
+}
+
+.dark-mode {
+	background-color: rgb(20, 20, 20);
+	color: white;
+}
+
+.dark-mode .search_button img,
+.dark-mode .button_add_post img,
+.dark-mode .likes_comment_post img,
+.dark-mode .dislikes_comment_post img,
+.dark-mode .comment_like_post img,
+.dark-mode .comment_dislike_post img,
+.dark-mode .like_popup img,
+.dark-mode .dislike_popup img,
+.dark-mode .delete_icon_div img,
+.dark-mode .img_edit_popup,
+.dark-mode .img_delete_popup,
+.dark-mode .close_icon,
+.dark-mode .edit_icon,
+.dark-mode .delete_icon__post_div img {
+	filter: invert(100%);
+}
+
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode .reply-button {
+	background-color: #555;
+	color: #fff;
+	border: 1px solid #777;
+}
+
+.dark-mode ::placeholder {
+	color: #bbb;
+}
+
+.dark-mode .container,
+.dark-mode table,
+.dark-mode th,
+.dark-mode td,
+.dark-mode .publications_card_profil {
+	border-color: rgb(20, 20, 20);
+	background-color: rgb(20, 20, 20);
+	color: white;
+}
+
+.dark-mode .publications_card_profil{
+	box-shadow: 0 0 10px #FFF;
+}
